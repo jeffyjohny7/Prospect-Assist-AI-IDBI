@@ -21,11 +21,7 @@ streamlit run app.py
 | Account Aggregator connection | **Simulated** — synthetic bank statements stand in for a live Setu/Finvu/OneMoney sandbox. Live AA integration requires FIU certification through Sahamati, which is a multi-day onboarding process, out of scope for this build window. |
 | AI Voice Agent | Not implemented — described in the architecture doc only |
 
-## Why this framing wins over a fully "working" fake demo
-Judges can and do ask "is this actually calling a model?" A demo that's honest about
-its simulated boundary (AA data source) while being **genuinely real everywhere else**
-(crypto, cash-flow math, trained models, bandit) is far more defensible than a system
-that looks complete but is `if/else` underneath.
+
 
 ## Files
 - `app.py` — Streamlit UI, orchestrates the full pipeline
