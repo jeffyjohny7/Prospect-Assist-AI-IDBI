@@ -31,6 +31,25 @@ This opens a local Streamlit app in your browser walking through the full applic
 | Account Aggregator connection | **Simulated** — synthetic bank statements stand in for a live Setu/Finvu/OneMoney sandbox. Live AA integration requires FIU certification through Sahamati, a multi-day onboarding process, out of scope for this build window. |
 | AI Voice Agent | Not implemented — described in the architecture doc only |
 
+## How it works — pipeline walkthrough
+
+The app runs the applicant through four layers in sequence, each visible live in the UI:
+
+**1. Applicant Funnel**
+Captures acquisition channel, device tier, time on landing page, requested loan amount, self-declared income, and hour of application — the behavioral signals used by the intent model.
+
+**2. Secure Data Acquisition Layer**
+A live X25519 Diffie-Hellman key exchange runs between simulated FIU (the lender) and FIP (the bank) roles — each side generates an ephemeral keypair, both independently derive a matching shared secret, and a symmetric session key is derived via HKDF-SHA256. The (simulated) bank statement payload is then encrypted with that session key and decrypted on arrival — mirroring how a real RBI Account Aggregator exchange protects data in transit.
+
+**3. Cash-Flow Underwriting Layer (Bank Statement Analyzer)**
+Once decrypted, six months of transaction data are analyzed with pandas to compute verified monthly income, monthly obligations, DTI (debt-to-income) ratio, and an income stability score — plus a spend breakdown by category (salary, rent, EMI, discretionary, SIP). This replaces the applicant's self-declared numbers from Step 1 with verified figures.
+
+**4. Algorithmic Decision Layer**
+The verified financial features feed the risk model, while the funnel/behavioral features feed the intent model — both real, trained `GradientBoostingClassifier`s — producing live Intent/Conversion and Default/Risk probability gauges.
+
+**5. Dynamic CMAB Routing Decision**
+An epsilon-greedy contextual multi-armed bandit takes the intent score, risk score, and DTI ratio as context, and picks a routing action — e.g., straight-through approval, collateralized loan offer, request more documents, or AI voice assist. The "CMAB Learning State" table shows how many times each arm has been pulled and its average reward, updating live as more applicants run through the demo — this is genuine online learning, not a lookup table. The "Session History" log records every applicant processed in the session for transparency.
+
 ## A note on scope
 
 The Account Aggregator step uses simulated bank data instead of a live Setu/Finvu 
