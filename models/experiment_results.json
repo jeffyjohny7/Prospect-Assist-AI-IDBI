@@ -1,0 +1,20 @@
+{
+  "risk": {
+    "naive_gbm_full_pop_auc": 0.5867247922029488,
+    "rmtnet_full_pop_auc": 0.7644416116845529,
+    "naive_gbm_rejected_only_auc": 0.5354320084956739,
+    "rmtnet_rejected_only_auc": 0.7068046480645128,
+    "note": "Evaluated against defaulted_true - the oracle only a synthetic dataset provides."
+  },
+  "risk_calibration_on_rejected": {
+    "actual_default_rate": 0.2855395903393458,
+    "naive_gbm_predicted_rate": 0.07494714519531345,
+    "rmtnet_predicted_rate": 0.8384525179862976,
+    "note": "Naive model, trained only on approved loans, cannot see how risky rejected applicants truly are."
+  },
+  "intent": {
+    "naive_gbm_entire_space_auc": 0.73091116324585,
+    "esmm_entire_space_auc": 0.8278398365516783,
+    "note": "pCTCVR evaluated over ALL impressions (the space the model is actually used on)."
+  }
+}

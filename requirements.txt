@@ -1,7 +1,12 @@
-streamlit==1.59.0
+streamlit
+plotly
 pandas
 numpy
-scikit-learn==1.9.0
-cryptography
+scikit-learn
+torch
+shap
+scipy
 joblib
-plotly
+cryptography
+python-dotenv
+openai
