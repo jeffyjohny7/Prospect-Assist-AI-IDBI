@@ -82,10 +82,13 @@ An online ε-greedy Contextual Multi-Armed Bandit consumes the (risk, intent, DT
 
 ## Architecture
 
+
+```
 AA consent (real X25519 DHE handshake) → BSA (pandas cash-flow features)
-→ dual engines: GBM baseline ∥ ESMM + RMT-Net (PyTorch, drives routing)
-→ SHAP explainability + adverse action notice
-→ CMAB router (ε-greedy, learns live) → drift & fraud monitor
+  → dual engines: GBM baseline ∥ ESMM + RMT-Net (PyTorch, drives routing)
+  → SHAP explainability + adverse action notice
+  → CMAB router (ε-greedy, learns live) → drift & fraud monitor
+```
 
 
 ### Step-by-step pipeline
@@ -144,29 +147,31 @@ Full transparency on the implementation status of every layer:
 
 ## Repository map
 
+
+```
 cprism/
 │
-├── app.py # Streamlit UI & end-to-end pipeline controller (3 tabs)
-├── crypto_layer.py # X25519 Diffie-Hellman Ephemeral + HKDF-SHA256
-├── bsa.py # Pandas-powered Bank Statement Analyzer
-├── train_models.py # Synthetic funnel data (chain labels + reject mask)
-│ # + naive GBM baselines
-├── torch_models.py # ESMM & RMT-Net architectures
-├── train_torch.py # Trains torch engines + runs the controlled bias experiment
-├── explain.py # SHAP + LLM/template adverse action notice
-├── counterfactual.py # Minimal decision-flipping change search
-├── drift.py # KS drift test + fraud heuristics
-├── cmab.py # ε-greedy contextual bandit router
+├── app.py                       # Streamlit UI & end-to-end pipeline controller (3 tabs)
+├── crypto_layer.py              # X25519 Diffie-Hellman Ephemeral + HKDF-SHA256
+├── bsa.py                       # Pandas-powered Bank Statement Analyzer
+├── train_models.py              # Synthetic funnel data (chain labels + reject mask)
+│                                #   + naive GBM baselines
+├── torch_models.py              # ESMM & RMT-Net architectures
+├── train_torch.py               # Trains torch engines + runs the controlled bias experiment
+├── explain.py                   # SHAP + LLM/template adverse action notice
+├── counterfactual.py            # Minimal decision-flipping change search
+├── drift.py                     # KS drift test + fraud heuristics
+├── cmab.py                      # ε-greedy contextual bandit router
 │
 ├── data/
-│ └── synthetic_applicants.csv # 6,000 baseline tabular applicant profiles
+│   └── synthetic_applicants.csv # 6,000 baseline tabular applicant profiles
 │
 └── models/
-├── risk_model.pkl # Trained naive GBM risk estimator
-├── intent_model.pkl # Trained naive GBM intent estimator
-├── esmm.pt # Trained ESMM entire-space intent engine
-└── rmtnet.pt # Trained RMT-Net reject-aware risk engine
-
+    ├── risk_model.pkl           # Trained naive GBM risk estimator
+    ├── intent_model.pkl         # Trained naive GBM intent estimator
+    ├── esmm.pt                  # Trained ESMM entire-space intent engine
+    └── rmtnet.pt                # Trained RMT-Net reject-aware risk engine
+```
 
 ---
 
